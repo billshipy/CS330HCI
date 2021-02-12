@@ -7,6 +7,7 @@ flask run
 from flask_restful import Api
 from flask import Flask, request, Response
 from flask_cors import CORS
+from flask import render_template
 
 import db
 from views import posts, comments
@@ -18,8 +19,18 @@ api = Api(app)
 
 # connect your routes to your app:
 @app.route('/')
-def home_page():
-    return 'This is your API Homepage'
+#def home_page():
+#   return 'This is your API Homepage'
+def list_posts():
+    return render_template('get-posts.html')
+
+@app.route('/add-post/')
+def create_post():
+    return render_template('create-post.html')
+
+@app.route('/post/')
+def get_single_post():
+    return render_template('post-detail.html')
 
 # routes from other files:
 posts.initialize_routes(api)
