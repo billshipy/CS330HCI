@@ -3,6 +3,7 @@
         <title>Tester</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
         <link rel="stylesheet" href="/static/css/style.css">
+        <script src="../static/js/post-detail.js"></script>
     </head>
     <body>
         <nav>
@@ -18,14 +19,29 @@
             <!-- To view the post -->
             <div id="view-post">
                 <section class="post"></section>
-                <section class="comments"></section>
+
             </div>
 
             <!-- To edit the post -->
             <form id="post-form" class="hide"></form>
 
             <!-- TODO: Add the comments associated with this blog below: -->
-
+            <div id="comments">
+            </div>
+            <h1>Comments</h1>
+            <h2>Add New Comment</h2>
+            <form id="comment-form"></form>
+                <div class="input-section">
+                    <label for="author">Author</label>
+                    <textarea name="text" id="author"></textarea>
+                </div>
+                <div class="input-section">
+                    <label for="comment">Comment</label>
+                    <textarea name="comment" id="comment"></textarea>
+                </div>
+            <button class="btn btn-main" id="save" type="submit" onclick="addComments(event)">Save</button>
+            <a class="btn" href="/">Cancel</a>
+            </form>
 
 
         </main>

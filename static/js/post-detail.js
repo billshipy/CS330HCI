@@ -17,6 +17,60 @@ const getPost = () => {
         });
 };
 
+const getComments = () => {
+    fetch('/api/comments')
+        .then(response => response.json())
+        .then(displayComments);
+};
+
+//delete button and function helped by Simon
+const displayComments = (data) => {
+    for (const post of data) {
+        if(post.post_id == activePost.id){
+            let commentHTML = `<section class="comment">
+                <p>${post.comment}</p>
+                <strong>Author: </strong>${post.author}
+                <button>delete</button>
+                </section>`;
+            let commentNode = document.createElement("section");
+            commentNode.innerHTML = commentHTML;
+            commentNode.children[0].children[2].onclick = deleteComment(post.id);
+            document.querySelector("#comments").appendChild(commentNode);
+        }
+    }
+};
+
+
+const addComments = (ev) =>{
+    const data = {
+        comment: document.querySelector('#comment').value,
+        author: document.querySelector('#author').value,
+        post: id
+    };
+    fetch('/api/comments', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    }).then(response => response.json())
+        .then(data => {initializePage()})
+};
+
+//delete function helped by Simon
+const deleteComment = function(commentID) {
+    return function(event) {
+        fetch('/api/comments/' + commentID + '/', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }).then(function(){
+            event.target.parentElement.parentElement.remove()
+        })
+    }
+};
+
 // updates the post:
 const updatePost = (ev) => {
     const data = {
@@ -138,9 +192,12 @@ const showConfirmation = () => {
 const initializePage = () => {
     // get the post from the server:
     getPost();
+    getComments();
     // add button event handler (right-hand corner:
     document.querySelector('#edit-button').onclick = renderForm;
     document.querySelector('#delete-button').onclick = deletePost;
 };
+
+
 
 initializePage();
